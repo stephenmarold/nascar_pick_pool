@@ -1,3 +1,11 @@
-initial setup of react app
-node.js backend
-push to repo
+redux for login?
+
+create basic pics page 
+
+install mui
+
+mongoDB?
+
+api for getting feed
+
+display selections outside of Dropdown (Selected State)
