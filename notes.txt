@@ -1,11 +1,18 @@
 redux for login?
 
-create basic pics page 
-
-install mui
-
 mongoDB?
+MySQL?
 
 api for getting feed
+https://cf.nascar.com/cacher/live/live-feed.json currently works. Not sure if will need to use Swagger at some point, but swagger throws CORS errors
+and...well...FUCK cors. 
 
-display selections outside of Dropdown (Selected State)
+figma!
+
+aggregate picks into a leaderboard
+display driver ticker, user ticker side by side
+
+Design/quality ideas:
+- Cards display (Select Drivers) when no drivers Selected [DONE]
+- display selections outside of Dropdown (Selected State)
+- 
