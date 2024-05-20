@@ -67,12 +67,14 @@ function SelectPicks() {
 		// checkAllDriversSelected();
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		const submitData = {
 			name,
 			selectedDrivers,
 		};
 		console.log(submitData);
+		// const response = await axios.get(`/mongoTest`);
+		// console.log(response);
 	};
 
 	useEffect(() => {

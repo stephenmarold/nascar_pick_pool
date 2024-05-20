@@ -1,7 +1,12 @@
 redux for login?
 
-mongoDB?
-MySQL?
+can only select driver once
+
+mongo set up
+- learn to insert picks
+- set up race-tracker page
+- learn to retrieve picks by username
+- learn to retrieve all picks
 
 api for getting feed
 https://cf.nascar.com/cacher/live/live-feed.json currently works. Not sure if will need to use Swagger at some point, but swagger throws CORS errors
@@ -15,4 +20,4 @@ display driver ticker, user ticker side by side
 Design/quality ideas:
 - Cards display (Select Drivers) when no drivers Selected [DONE]
 - display selections outside of Dropdown (Selected State)
-- 
+- responsive design for mobile
