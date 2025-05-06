@@ -2,11 +2,7 @@ redux for login?
 
 can only select driver once
 
-mongo set up
-- learn to insert picks
-- set up race-tracker page
-- learn to retrieve picks by username
-- learn to retrieve all picks
+sqlite database setup
 
 api for getting feed
 https://cf.nascar.com/cacher/live/live-feed.json currently works. Not sure if will need to use Swagger at some point, but swagger throws CORS errors

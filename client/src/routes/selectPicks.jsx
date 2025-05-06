@@ -27,6 +27,7 @@ function SelectPicks() {
 
 	const getRaceData = async () => {
 		const response = await axios.get(`https://cf.nascar.com/cacher/live/live-feed.json`);
+		console.log(response.data);
 		setRaceData(response.data);
 	};
 

@@ -19,31 +19,15 @@ function Header() {
 					alignItems: 'center',
 					//borderBottom: 3,
 					//borderColor: '#FF901F',
-					background: 'linear-gradient(#FF005B, #540D6E 80%)',
+					background: 'linear-gradient(to right, yellow, red, blue 80%)',
 				}}
 			>
-				{/* <img
-					src={img}
-					alt='proposal pg1'
-					style={{ width: '300px', paddingLeft: '50px' }}
-				/> */}
-
-				{/* <Box sx={{ width: '400px', pl: '50px', display: 'flex' }}>
-					<Sidebar onEventPage={!(JSON.stringify(event) === '{}')} />
-					<a
-						href='/'
-						style={{ textDecoration: 'none' }}
-					>
-						<h3>Tournimator</h3>
-					</a>
-				</Box> */}
-
 				<Box sx={{ display: 'flex', alignItems: 'flex-end', height: '100%' }}>
 					<Link
 						to='/createEvent'
 						onClick={() => console.log('test')}
 						style={{
-							color: '#2DE2E6',
+							color: 'black',
 							// border: isActiveLink === 0 ? '3px solid #FF901F' : '',
 							textDecoration: 'none',
 							padding: '10px',
@@ -57,7 +41,7 @@ function Header() {
 						to='/'
 						onClick={() => console.log('test')}
 						style={{
-							color: '#2DE2E6',
+							color: 'black',
 							// border: isActiveLink === 1 ? '3px solid #FF901F' : '',
 							textDecoration: 'none',
 							padding: '10px',
@@ -71,7 +55,7 @@ function Header() {
 						to='/dashboard'
 						// onClick={() => handleChange(2)}
 						style={{
-							color: '#2DE2E6',
+							color: 'black',
 							// border: isActiveLink === 2 ? '3px solid #FF901F' : '',
 							textDecoration: 'none',
 							padding: '10px',
