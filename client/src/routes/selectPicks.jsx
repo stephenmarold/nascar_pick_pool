@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Autocomplete, Box, Checkbox, Button } from '@mui/material';
 import axios from 'axios';
-// import CheckBoxOutlineBlankIcon from '@mui/icons-material/C
 import DriverCard from '../components/DriverCard';
 
 const _ = require('lodash');
@@ -71,7 +70,9 @@ function SelectPicks() {
 	const handleSubmit = async () => {
 		const submitData = {
 			name,
-			selectedDrivers,
+			driver_1: selectedDrivers[0].number,
+			driver_2: selectedDrivers[1].number,
+			driver_3: selectedDrivers[2].number
 		};
 		console.log(submitData);
 		// const response = await axios.get(`/mongoTest`);

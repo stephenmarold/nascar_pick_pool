@@ -25,7 +25,7 @@ function Header() {
 				<Box sx={{ display: 'flex', alignItems: 'flex-end', height: '100%' }}>
 					<Link
 						to='/createEvent'
-						onClick={() => console.log('test')}
+						// onClick={() => console.log('test')}
 						style={{
 							color: 'black',
 							// border: isActiveLink === 0 ? '3px solid #FF901F' : '',

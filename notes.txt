@@ -1,17 +1,19 @@
-redux for login?
-
-can only select driver once
-
-sqlite database setup
-
 api for getting feed
 https://cf.nascar.com/cacher/live/live-feed.json currently works. Not sure if will need to use Swagger at some point, but swagger throws CORS errors
 and...well...FUCK cors. 
 
 figma!
 
-aggregate picks into a leaderboard
-display driver ticker, user ticker side by side
+TODO: 
+- find event (get from backend)
+- aggregate picks into a leaderboard <- This is the event page
+- display driver ticker, user ticker side by side
+
+- move picks to a modal on event page
+- redux for login and race data 
+- default create pool to current race name and date
+
+- can only select driver once
 
 Design/quality ideas:
 - Cards display (Select Drivers) when no drivers Selected [DONE]

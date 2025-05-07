@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 // import { createHashRouter } from 'react-router-dom';
 import App from '../App';
 import Homepage from './homepage';
+import CreateEvent from './createEvent';
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
 			{
 				path: '/',
 				element: <Homepage />,
+			},
+			{
+				path: '/createEvent',
+				element: <CreateEvent />,
 			},
 		],
 	},
