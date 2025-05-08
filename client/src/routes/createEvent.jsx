@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Autocomplete, Box, Checkbox, Button } from '@mui/material';
 import axios from 'axios';
-import DriverCard from '../components/DriverCard';
+import { useNavigate } from 'react-router-dom';
 
 const CreateEvent = () => {
+	const navigate = useNavigate();
 	const [poolName, setPoolName] = useState('');
 	const [raceName, setRaceName] = useState('');
-	const [raceDate, setRaceDate] = useState('');
+	const [raceDate, setRaceDate] = useState(
+		new Date().toISOString().split('T')[0]
+	);
 	const [password, setPassword] = useState('');
 
 	const handlePasswordChange = (pwd) => {
@@ -29,11 +32,12 @@ const CreateEvent = () => {
 			});
 			console.log(response.data);
 			if (response.status === 201) {
-				alert('Pool created successfully!');
+				navigate(`/eventPage/${response.data.id}`);
 			} else {
 				alert('Failed to create pool.');
 			}
 		} catch (error) {
+			alert('Pool created successfully!');
 			console.error('Error creating pool:', error);
 		}
 	};
@@ -65,7 +69,7 @@ const CreateEvent = () => {
 					sx={{ width: 300, marginTop: '1rem' }}
 					onChange={(e) => setPoolName(e.target.value)}
 				/>
-				<TextField
+				{/* <TextField
 					id='password'
 					type='text'
 					variant='outlined'
@@ -73,7 +77,7 @@ const CreateEvent = () => {
 					value={password || ''}
 					sx={{ width: 300, marginTop: '1rem' }}
 					onChange={(e) => handlePasswordChange(e.target.value)}
-				/>
+				/> */}
 				<TextField
 					id='raceName'
 					type='text'

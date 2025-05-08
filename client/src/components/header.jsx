@@ -19,10 +19,17 @@ function Header() {
 					alignItems: 'center',
 					//borderBottom: 3,
 					//borderColor: '#FF901F',
-					background: 'linear-gradient(to right, yellow, red, blue 80%)',
+					background:
+						'linear-gradient(to right, yellow, red, blue 80%)',
 				}}
 			>
-				<Box sx={{ display: 'flex', alignItems: 'flex-end', height: '100%' }}>
+				<Box
+					sx={{
+						display: 'flex',
+						alignItems: 'flex-end',
+						height: '100%',
+					}}
+				>
 					<Link
 						to='/createEvent'
 						// onClick={() => console.log('test')}
@@ -38,8 +45,7 @@ function Header() {
 						Create New
 					</Link>
 					<Link
-						to='/'
-						onClick={() => console.log('test')}
+						to='/findEvent'
 						style={{
 							color: 'black',
 							// border: isActiveLink === 1 ? '3px solid #FF901F' : '',
@@ -51,7 +57,7 @@ function Header() {
 					>
 						Find Event
 					</Link>
-					<Link
+					{/* <Link
 						to='/dashboard'
 						// onClick={() => handleChange(2)}
 						style={{
@@ -64,10 +70,10 @@ function Header() {
 						}}
 					>
 						My Events
-					</Link>
+					</Link> */}
 				</Box>
 
-				<Box sx={{ width: '400px', pr: '50px' }}>
+				{/* <Box sx={{ width: '400px', pr: '50px' }}>
 					<Link
 						to='/logout'
 						style={{
@@ -86,7 +92,10 @@ function Header() {
 					>
 						Login
 					</Link>
-					<span style={{ color: '#2DE2E6', fontWeight: 'bold' }}> | </span>
+					<span style={{ color: '#2DE2E6', fontWeight: 'bold' }}>
+						{' '}
+						|{' '}
+					</span>
 					<Link
 						to='/createAccount'
 						style={{
@@ -96,30 +105,30 @@ function Header() {
 					>
 						Create Account
 					</Link>
-				</Box>
+				</Box> */}
 			</Box>
 			<LinearProgress
 				variant='determinate'
 				value={100}
 				sx={{
-					'backgroundColor': '#540D6E',
+					backgroundColor: '#540D6E',
 					'& .MuiLinearProgress-bar': {
 						backgroundColor: '#FF901F',
 					},
-					'width': '100%',
-					'animationDuration': '10ms',
+					width: '100%',
+					animationDuration: '10ms',
 				}}
 			/>
 			{isLoading && (
 				<>
 					<LinearProgress
 						sx={{
-							'backgroundColor': '#540D6E',
+							backgroundColor: '#540D6E',
 							'& .MuiLinearProgress-bar': {
 								backgroundColor: '#FF901F',
 							},
-							'width': '100%',
-							'animationDuration': '10ms',
+							width: '100%',
+							animationDuration: '10ms',
 						}}
 					/>
 				</>

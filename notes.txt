@@ -5,11 +5,18 @@ and...well...FUCK cors.
 figma!
 
 TODO: 
-- find event (get from backend)
-- aggregate picks into a leaderboard <- This is the event page
-- display driver ticker, user ticker side by side
+- DONE find event (get from backend)
+- DONE Navigate to Event page on event create
+- DONE 'no participants' until event has participants
+- DONE Make event page
+- DONE aggregate picks into a leaderboard <- This is the event page
+- DONE display driver ticker, user ticker side by side
 
-- move picks to a modal on event page
+- DONE move picks to a modal on event page
+- DONE button to open modal
+- order picks every call, and on pick submission
+- styling on event page needs work
+
 - redux for login and race data 
 - default create pool to current race name and date
 

@@ -1,10 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { TextField, Autocomplete, Box, Checkbox, Button } from '@mui/material';
+import {
+	TextField,
+	Autocomplete,
+	Box,
+	Button,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	IconButton,
+	Typography,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import DriverCard from '../components/DriverCard';
-
-const _ = require('lodash');
 
 const defaultDriverCard = {
 	number: null,
@@ -13,7 +22,7 @@ const defaultDriverCard = {
 	qual: 'N/A',
 };
 
-function SelectPicks() {
+function SelectPicksModal({ open, setOpen, poolId }) {
 	const [raceData, setRaceData] = useState({});
 	const [maxDriversSelected, setMaxDriversSelected] = useState(false);
 	const [drivers, setDrivers] = useState([]);
@@ -25,58 +34,64 @@ function SelectPicks() {
 	const [name, setName] = useState('');
 
 	const getRaceData = async () => {
-		const response = await axios.get(`https://cf.nascar.com/cacher/live/live-feed.json`);
-		console.log(response.data);
+		const response = await axios.get(
+			`https://cf.nascar.com/cacher/live/live-feed.json`
+		);
 		setRaceData(response.data);
 	};
 
-	const setDriverDropdowns = async () => {
+	const setDriverDropdowns = () => {
 		if (!raceData.vehicles) return;
 
-		const newDrivers = JSON.parse(JSON.stringify(drivers));
-
-		for (let i = 0; i < raceData.vehicles.length; i++) {
-			newDrivers[i] = {
-				number: raceData.vehicles[i].vehicle_number,
-				driver: raceData.vehicles[i].driver.full_name,
-				manufacturer: raceData.vehicles[i].vehicle_manufacturer,
-				qual: raceData.vehicles[i].running_position,
-			};
-		}
+		const newDrivers = raceData.vehicles.map((v) => ({
+			number: v.vehicle_number,
+			driver: v.driver.full_name,
+			manufacturer: v.vehicle_manufacturer,
+			qual: v.running_position,
+		}));
 
 		setDrivers(newDrivers);
 	};
 
 	const checkAllDriversSelected = () => {
-		let canSubmit = name != '';
-
-		for (let i = 0; i < selectedDrivers.length; i++) {
-			if (selectedDrivers[i].number === null) {
-				canSubmit = false;
-				break;
-			}
-		}
-
-		setMaxDriversSelected(canSubmit);
+		const allSelected = selectedDrivers.every((d) => d.number !== null);
+		setMaxDriversSelected(allSelected && name.trim() !== '');
 	};
 
-	const handleDriverChange = (sel, driver) => {
-		const newDrivers = JSON.parse(JSON.stringify(selectedDrivers));
-		newDrivers[sel] = driver ?? defaultDriverCard;
+	const handleDriverChange = (index, driver) => {
+		const newDrivers = [...selectedDrivers];
+		newDrivers[index] = driver ?? defaultDriverCard;
 		setSelectedDrivers(newDrivers);
-		// checkAllDriversSelected();
+	};
+	const handleClose = () => {
+		// Reset selected drivers and name when closing the modal
+		setSelectedDrivers([
+			defaultDriverCard,
+			defaultDriverCard,
+			defaultDriverCard,
+		]);
+		setName('');
+		setOpen(false);
 	};
 
 	const handleSubmit = async () => {
 		const submitData = {
 			name,
+			pool_id: poolId,
 			driver_1: selectedDrivers[0].number,
 			driver_2: selectedDrivers[1].number,
-			driver_3: selectedDrivers[2].number
+			driver_3: selectedDrivers[2].number,
 		};
-		console.log(submitData);
-		// const response = await axios.get(`/mongoTest`);
-		// console.log(response);
+		const response = await axios.post('/api/makePicks', submitData, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		if (response.status !== 201) {
+			alert('Failed to create Picks.');
+		}
+
+		handleClose();
 	};
 
 	useEffect(() => {
@@ -92,73 +107,102 @@ function SelectPicks() {
 	}, [raceData]);
 
 	return (
-		<>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-around',
-					alignItems: 'flex-start',
-					padding: '1rem',
-				}}
-			>
+		<Dialog
+			open={open}
+			onClose={handleClose}
+			fullWidth
+			maxWidth='md'
+		>
+			<DialogTitle sx={{ m: 0, p: 2 }}>
+				Make Your Picks
+				<IconButton
+					aria-label='close'
+					onClick={handleClose}
+					sx={{ position: 'absolute', right: 8, top: 8 }}
+				>
+					<CloseIcon />
+				</IconButton>
+			</DialogTitle>
+
+			<DialogContent dividers>
 				<Box
 					sx={{
 						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						flexFlow: 'column',
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+						gap: 4,
 					}}
 				>
-					<h1>Picks</h1>
-					<TextField
-						id='userName'
-						type='text'
-						variant='outlined'
-						label='Name'
-						value={name || ''}
-						sx={{ width: 300, marginTop: '1rem' }}
-						onChange={(e) => setName(e.target.value)}
-					/>
-					<Autocomplete
-						disablePortal
-						id='driverPick1'
-						options={drivers}
-						getOptionLabel={(driver) => `#${driver.number} ${driver.driver}`}
-						sx={{ width: 300, marginTop: '1rem' }}
-						renderInput={(params) => <TextField {...params} label='Driver 1' />}
-						onChange={(e, v) => handleDriverChange(0, v)}
-					/>
-					<Autocomplete
-						disablePortal
-						id='driverPick2'
-						options={drivers}
-						getOptionLabel={(driver) => `#${driver.number} ${driver.driver}`}
-						sx={{ width: 300, marginTop: '1rem' }}
-						renderInput={(params) => <TextField {...params} label='Driver 2' />}
-						onChange={(e, v) => handleDriverChange(1, v)}
-					/>
-					<Autocomplete
-						disablePortal
-						id='driverPick3'
-						options={drivers}
-						getOptionLabel={(driver) => `#${driver.number} ${driver.driver}`}
-						sx={{ width: 300, marginTop: '1rem', marginBottom: '1rem' }}
-						renderInput={(params) => <TextField {...params} label='Driver 3' />}
-						onChange={(e, v) => handleDriverChange(2, v)}
-					/>
-					<Button variant='outlined' onClick={handleSubmit} disabled={!maxDriversSelected}>
-						Submit
-					</Button>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							flexFlow: 'column',
+							width: '50%',
+						}}
+					>
+						<Typography variant='h6'>Picks</Typography>
+						<TextField
+							id='userName'
+							type='text'
+							variant='outlined'
+							label='Name'
+							value={name}
+							sx={{ width: '100%', marginTop: '1rem' }}
+							onChange={(e) => setName(e.target.value)}
+						/>
+						{[0, 1, 2].map((i) => (
+							<Autocomplete
+								key={i}
+								disablePortal
+								options={drivers}
+								getOptionLabel={(driver) =>
+									`#${driver.number} ${driver.driver}`
+								}
+								sx={{ width: '100%', marginTop: '1rem' }}
+								renderInput={(params) => (
+									<TextField
+										{...params}
+										label={`Driver ${i + 1}`}
+									/>
+								)}
+								onChange={(e, v) => handleDriverChange(i, v)}
+							/>
+						))}
+					</Box>
+
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'column',
+							width: '50%',
+							gap: 2,
+							alignItems: 'center',
+							paddingTop: '1rem',
+						}}
+					>
+						{selectedDrivers.map((driver, index) => (
+							<DriverCard
+								key={index}
+								driver={driver}
+							/>
+						))}
+					</Box>
 				</Box>
-				<Box>
-					{selectedDrivers?.map((driver) => {
-						return <DriverCard driver={driver} />;
-					})}
-				</Box>
-			</Box>
-		</>
+			</DialogContent>
+
+			<DialogActions>
+				<Button
+					variant='outlined'
+					onClick={handleSubmit}
+					disabled={!maxDriversSelected}
+				>
+					Submit Picks
+				</Button>
+			</DialogActions>
+		</Dialog>
 	);
 }
 
-export default SelectPicks;
+export default SelectPicksModal;

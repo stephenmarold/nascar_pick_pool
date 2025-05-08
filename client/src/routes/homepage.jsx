@@ -1,8 +1,8 @@
 import React from 'react';
-import SelectPicks from './selectPicks';
+import EventPage from './eventPage';
 
 function Homepage() {
-	return <SelectPicks />;
+	return <EventPage />;
 }
 
 export default Homepage;
