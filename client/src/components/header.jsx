@@ -4,10 +4,49 @@ import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { Link } from 'react-router-dom';
 import '../App.css';
+import axios from 'axios';
 // import Sidebar from './sidebar';
 
 function Header() {
 	const isLoading = false;
+	const [drivers, setDrivers] = useState([{}]);
+
+	const getRaceData = async () => {
+		const response = await axios.get(
+			`https://cf.nascar.com/cacher/2025/1/5557/weekend-feed.json`
+		);
+		console.log(response.data);
+		setDrivers(response.data.weekend_race[0].results);
+	};
+
+	const addDrivers = async () => {
+		console.log('Adding drivers:', drivers);
+		const newDrivers = [];
+		for (let i = 0; i < drivers.length; i++) {
+			newDrivers[i] = {};
+			newDrivers[i].driver_name = drivers[i].driver_fullname;
+			newDrivers[i].driver_number = drivers[i].car_number;
+			newDrivers[i].manufacturer = drivers[i].car_make;
+		}
+		const response = await axios.post('/api/addDrivers', newDrivers, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		if (response.status !== 201) {
+			alert('Failed to add.');
+		}
+	};
+
+	useEffect(() => {
+		getRaceData();
+	}, []);
+
+	useEffect(() => {
+		console.log('Drivers:', drivers.length);
+		if (drivers && drivers.length > 1) addDrivers();
+	}, [drivers]);
+
 	return (
 		<>
 			<Box

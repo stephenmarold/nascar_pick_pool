@@ -1,8 +1,7 @@
 import React from 'react';
-import EventPage from './eventPage';
-
+import FindEvent from '../routes/findEvent';
 function Homepage() {
-	return <EventPage />;
+	return <FindEvent />;
 }
 
 export default Homepage;

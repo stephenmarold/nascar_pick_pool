@@ -5,6 +5,8 @@ import axios from 'axios';
 import ParticipantList from '../components/participantList';
 import DriverStandings from '../components/driverStandings';
 import SelectPicks from './selectPicks';
+import { use } from 'react';
+import { calculateParticipantScores } from '../utils/utils';
 
 const EventPage = () => {
 	const [isRaceDataLoading, setIsRaceDataLoading] = useState(true);
@@ -24,7 +26,7 @@ const EventPage = () => {
 			);
 			setRaceData(response.data);
 		} catch (error) {
-			console.err('Error fetching race data', error);
+			console.error('Error fetching race data', error);
 		}
 	};
 
@@ -51,9 +53,11 @@ const EventPage = () => {
 	};
 
 	useEffect(() => {
-		getRaceData();
 		fetchParticipants();
 		fetchPoolData();
+		getRaceData();
+		const interval = setInterval(getRaceData, 3000);
+		return () => clearInterval(interval);
 	}, []);
 
 	useEffect(() => {
@@ -61,6 +65,16 @@ const EventPage = () => {
 		if (raceData) setIsRaceDataLoading(false);
 		if (participants) setIsParticipantsLoading(false);
 	}, [poolData, raceData, participants]);
+
+	useEffect(() => {
+		if (!participants?.length !== 0 && raceData?.vehicles?.length !== 0) {
+			const orderedParticipants = calculateParticipantScores(
+				participants,
+				raceData.vehicles
+			);
+			setParticipants(orderedParticipants);
+		}
+	}, [raceData]);
 
 	return (
 		<>

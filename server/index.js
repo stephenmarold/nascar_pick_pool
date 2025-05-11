@@ -141,6 +141,51 @@ app.post('/api/makePicks', (req, res) => {
 	);
 });
 
+// Add drivers to backend
+app.post('/api/addDrivers', (req, res) => {
+	console.log('Received request to create a new drivers entries:', req.body);
+	const drivers = req.body;
+
+	if (drivers.length === 0) {
+		return res.status(400).json({
+			error: 'at least one driver is required',
+		});
+	}
+	db.serialize(() => {
+		db.run('BEGIN TRANSACTION');
+
+		const stmt = db.prepare(
+			'INSERT INTO drivers_info (driver_name, number, manufacturer) VALUES (?, ?, ?)'
+		);
+
+		let hasError = false;
+
+		for (const driver of drivers) {
+			stmt.run(
+				[driver.driver_name, driver.driver_number, driver.manufacturer],
+				(err) => {
+					if (err) {
+						console.error('Insert failed:', err.message);
+						hasError = true;
+					}
+				}
+			);
+		}
+
+		stmt.finalize((err) => {
+			if (hasError || err) {
+				db.run('ROLLBACK', () => {
+					console.log('Transaction rolled back due to error.');
+				});
+			} else {
+				db.run('COMMIT', () => {
+					console.log('Transaction committed successfully.');
+				});
+			}
+		});
+	});
+});
+
 app.listen(PORT, () => {
 	console.log(`Server listening on ${PORT}`);
 });

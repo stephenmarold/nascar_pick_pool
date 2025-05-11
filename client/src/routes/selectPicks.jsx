@@ -34,24 +34,22 @@ function SelectPicksModal({ open, setOpen, poolId }) {
 	const [name, setName] = useState('');
 
 	const getRaceData = async () => {
-		const response = await axios.get(
-			`https://cf.nascar.com/cacher/live/live-feed.json`
-		);
-		setRaceData(response.data);
+		const response = await axios.get('.api/getDrivers');
+		setDrivers(response.data);
 	};
 
-	const setDriverDropdowns = () => {
-		if (!raceData.vehicles) return;
+	// const setDriverDropdowns = () => {
+	// 	if (!drivers) return;
 
-		const newDrivers = raceData.vehicles.map((v) => ({
-			number: v.vehicle_number,
-			driver: v.driver.full_name,
-			manufacturer: v.vehicle_manufacturer,
-			qual: v.running_position,
-		}));
+	// 	const newDrivers = raceData.vehicles.map((v) => ({
+	// 		number: v.vehicle_number,
+	// 		driver: v.driver.full_name,
+	// 		manufacturer: v.vehicle_manufacturer,
+	// 		qual: v.running_position,
+	// 	}));
 
-		setDrivers(newDrivers);
-	};
+	// 	setDrivers(newDrivers);
+	// };
 
 	const checkAllDriversSelected = () => {
 		const allSelected = selectedDrivers.every((d) => d.number !== null);
@@ -102,9 +100,9 @@ function SelectPicksModal({ open, setOpen, poolId }) {
 		checkAllDriversSelected();
 	}, [name, selectedDrivers]);
 
-	useEffect(() => {
-		setDriverDropdowns();
-	}, [raceData]);
+	// useEffect(() => {
+	// 	setDriverDropdowns();
+	// }, [raceData]);
 
 	return (
 		<Dialog
@@ -158,7 +156,7 @@ function SelectPicksModal({ open, setOpen, poolId }) {
 								disablePortal
 								options={drivers}
 								getOptionLabel={(driver) =>
-									`#${driver.number} ${driver.driver}`
+									`#${driver.number} ${driver.driver_name}`
 								}
 								sx={{ width: '100%', marginTop: '1rem' }}
 								renderInput={(params) => (
