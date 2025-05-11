@@ -17,9 +17,12 @@ TODO:
 
 - DONE move picks to a modal on event page
 - DONE button to open modal
-- order picks every call, and on pick submission
+- DONE order picks every call, and on pick submission
 - styling on event page needs work
 
+- Save points each call 
+
+- save winner
 
 - redux for login and race data, and driver list
 
@@ -30,6 +33,7 @@ TODO:
 - Figure out transaction issue
 
 Design/quality ideas:
+- pop out card with pick details?
 - default create pool to current race name and date
 - Cards display (Select Drivers) when no drivers Selected [DONE]
 - display selections outside of Dropdown (Selected State)
