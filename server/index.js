@@ -64,6 +64,22 @@ app.get('/api/picks/:poolId', (req, res) => {
 	});
 });
 
+//get all picks by pool
+app.get('/api/getDriverList', (req, res) => {
+	const query = `
+	  SELECT * FROM drivers_info
+	`;
+
+	db.all(query, (err, rows) => {
+		if (err) {
+			console.error('Error fetching drivers:', err.message);
+			return res.status(500).json({ error: 'Database error' });
+		}
+
+		res.json(rows);
+	});
+});
+
 // create a new pool
 app.post('/api/pools', (req, res) => {
 	console.log('Received request to create a new pool:', req.body);
@@ -115,8 +131,7 @@ app.post('/api/makePicks', (req, res) => {
 
 	const query = `
 	  INSERT INTO picks_tbl (name, pool_id, driver_1, driver_2, driver_3)
-	  VALUES (?, ?, ?, ?, ?)
-	`;
+	  VALUES (?, ?, ?, ?, ?)`;
 
 	db.run(
 		query,
@@ -143,7 +158,7 @@ app.post('/api/makePicks', (req, res) => {
 
 // Add drivers to backend
 app.post('/api/addDrivers', (req, res) => {
-	console.log('Received request to create a new drivers entries:', req.body);
+	console.log('Received request to create a new drivers entries:');
 	const drivers = req.body;
 
 	if (drivers.length === 0) {
@@ -152,37 +167,56 @@ app.post('/api/addDrivers', (req, res) => {
 		});
 	}
 	db.serialize(() => {
-		db.run('BEGIN TRANSACTION');
-
-		const stmt = db.prepare(
-			'INSERT INTO drivers_info (driver_name, number, manufacturer) VALUES (?, ?, ?)'
-		);
-
 		let hasError = false;
-
-		for (const driver of drivers) {
-			stmt.run(
-				[driver.driver_name, driver.driver_number, driver.manufacturer],
-				(err) => {
-					if (err) {
-						console.error('Insert failed:', err.message);
-						hasError = true;
-					}
-				}
-			);
-		}
-
-		stmt.finalize((err) => {
-			if (hasError || err) {
-				db.run('ROLLBACK', () => {
-					console.log('Transaction rolled back due to error.');
-				});
-			} else {
-				db.run('COMMIT', () => {
-					console.log('Transaction committed successfully.');
-				});
+		// db.run('BEGIN TRANSACTION');
+		// Clear existing drivers
+		db.run('DELETE FROM drivers_info', (err) => {
+			if (err) {
+				console.error('Error deleting drivers:', err.message);
+				hasError = true;
 			}
+			const stmt = db.prepare(
+				'INSERT INTO drivers_info (driver_name, number, manufacturer) VALUES (?, ?, ?)'
+			);
+
+			for (const driver of drivers) {
+				stmt.run(
+					[
+						driver.driver_name,
+						driver.driver_number,
+						driver.manufacturer,
+					],
+					(err) => {
+						if (err) {
+							console.error('Insert failed:', err.message);
+							hasError = true;
+						}
+					}
+				);
+			}
+
+			// stmt.finalize((err) => {
+			// 	if (hasError) {
+			// 		db.run('ROLLBACK', () => {
+			// 			console.log('Transaction rolled back due to error.');
+			// 		});
+			// 	} else {
+			// 		db.run('COMMIT', () => {
+			// 			console.log('Transaction committed successfully.');
+			// 		});
+			// 	}
+			// });
 		});
+	});
+});
+
+// Dev btns
+app.post('/api/deletePicks', (req, res) => {
+	db.run('DELETE FROM picks_tbl', (err) => {
+		if (err) {
+			console.error('Error deleting picks:', err.message);
+			hasError = true;
+		}
 	});
 });
 

@@ -35,7 +35,6 @@ db.serialize(() => {
 	db.run(
 		`
         CREATE TABLE IF NOT EXISTS drivers_info (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
         driver_name TEXT NOT NULL,
         number INTEGER NOT NULL,
         manufacturer TEXT NOT NULL

@@ -30,14 +30,12 @@ const CreateEvent = () => {
 					'Content-Type': 'application/json',
 				},
 			});
-			console.log(response.data);
 			if (response.status === 201) {
 				navigate(`/eventPage/${response.data.id}`);
 			} else {
 				alert('Failed to create pool.');
 			}
 		} catch (error) {
-			alert('Pool created successfully!');
 			console.error('Error creating pool:', error);
 		}
 	};

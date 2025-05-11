@@ -15,12 +15,10 @@ function Header() {
 		const response = await axios.get(
 			`https://cf.nascar.com/cacher/2025/1/5557/weekend-feed.json`
 		);
-		console.log(response.data);
 		setDrivers(response.data.weekend_race[0].results);
 	};
 
 	const addDrivers = async () => {
-		console.log('Adding drivers:', drivers);
 		const newDrivers = [];
 		for (let i = 0; i < drivers.length; i++) {
 			newDrivers[i] = {};
@@ -43,7 +41,6 @@ function Header() {
 	}, []);
 
 	useEffect(() => {
-		console.log('Drivers:', drivers.length);
 		if (drivers && drivers.length > 1) addDrivers();
 	}, [drivers]);
 

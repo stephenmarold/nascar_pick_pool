@@ -13,9 +13,10 @@ export const calculateParticipantScores = (participants, vehicles) => {
 			return vehicle.vehicle_number == participants[i].driver_3;
 		});
 		participants[i].cur_points =
-			pick_1.running_position +
-			pick_2.running_position +
-			pick_3.running_position;
+			pick_1?.running_position ??
+			0 + pick_2?.running_position ??
+			0 + pick_3?.running_position ??
+			0;
 	}
 	const sortedParticipants = [...participants].sort(
 		(a, b) => a.cur_points - b.cur_points

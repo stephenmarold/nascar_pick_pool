@@ -82,6 +82,7 @@ const EventPage = () => {
 				open={picksModalOpen}
 				setOpen={setPicksModalOpen}
 				poolId={poolId}
+				fetchData={fetchParticipants}
 			/>
 			{/* Center - Pool Name */}
 			<Typography

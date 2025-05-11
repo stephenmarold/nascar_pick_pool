@@ -22,7 +22,7 @@ const defaultDriverCard = {
 	qual: 'N/A',
 };
 
-function SelectPicksModal({ open, setOpen, poolId }) {
+function SelectPicksModal({ open, setOpen, poolId, fetchData }) {
 	const [raceData, setRaceData] = useState({});
 	const [maxDriversSelected, setMaxDriversSelected] = useState(false);
 	const [drivers, setDrivers] = useState([]);
@@ -34,7 +34,7 @@ function SelectPicksModal({ open, setOpen, poolId }) {
 	const [name, setName] = useState('');
 
 	const getRaceData = async () => {
-		const response = await axios.get('.api/getDrivers');
+		const response = await axios.get('/api/getDriverList');
 		setDrivers(response.data);
 	};
 
@@ -69,6 +69,7 @@ function SelectPicksModal({ open, setOpen, poolId }) {
 			defaultDriverCard,
 		]);
 		setName('');
+		fetchData();
 		setOpen(false);
 	};
 

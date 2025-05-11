@@ -19,7 +19,7 @@ const FindEvent = () => {
 	const [search, setSearch] = useState('');
 
 	const [isLoading, setIsLoading] = useState(false);
-	const [poolList, setPoolList] = useState([]);
+	const [poolList, setPoolList] = useState();
 	const [filteredPoolList, setFilteredPoolList] = useState([]);
 
 	useEffect(() => {

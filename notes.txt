@@ -21,13 +21,16 @@ TODO:
 - styling on event page needs work
 
 
-- redux for login and race data 
-- default create pool to current race name and date
+- redux for login and race data, and driver list
 
 - can only select driver once
 
 - Adjust git to run in terminal with auth
+
+- Figure out transaction issue
+
 Design/quality ideas:
+- default create pool to current race name and date
 - Cards display (Select Drivers) when no drivers Selected [DONE]
 - display selections outside of Dropdown (Selected State)
 - responsive design for mobile
