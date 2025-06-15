@@ -46,5 +46,6 @@
 			"last 1 safari version"
 		]
 	},
-	"proxy": "http://localhost:3001"
+	"proxy": "https://nascar-pick-pool.onrender.com:10000"
+	
 }
