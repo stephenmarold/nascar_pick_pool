@@ -68,3 +68,16 @@ The server listens on `process.env.PORT` or `3001` by default and exposes the AP
 
 - To extend functionality, check the React routes in `src/routes/` and the server endpoints in `server/index.js`.
 - If you want a local development experience matching production, change `client/package.json` `proxy` to `http://localhost:3001`.
+ 
+## TODOs
+
+- Switch to `react-query` for all endpoints
+- Styling on event page needs work
+- Save points each call
+- Save winner
+- Redux for login and race data, and driver list?
+- Can only select driver once
+- Adjust git to run in terminal with auth
+- Figure out transaction issue (see `notes.txt` for context)
+
+If you want, I can start on any of these — say which one and I'll open a branch and implement it.
