@@ -72,12 +72,12 @@ The server listens on `process.env.PORT` or `3001` by default and exposes the AP
 ## TODOs
 
 - Switch to `react-query` for all endpoints
-- Styling on event page needs work
 - Save points each call
 - Save winner
 - Redux for login and race data, and driver list?
 - Can only select driver once
 - Adjust git to run in terminal with auth
 - Figure out transaction issue (see `notes.txt` for context)
+- Containerize app (for practice)
 
 If you want, I can start on any of these — say which one and I'll open a branch and implement it.
