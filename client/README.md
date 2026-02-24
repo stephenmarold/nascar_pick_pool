@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# NASCAR Picks Pool — Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the React client for the "NASCAR Picks Pool" app — a lightweight app for creating race pools, inviting participants, and collecting driver picks for a given race. The client provides UI for creating events, selecting picks, viewing participants, and calculating standings.
 
-## Available Scripts
+## Key features
 
-In the project directory, you can run:
+- Create and manage pick pools (event name, date, optional password)
+- Submit picks (three driver selections per participant)
+- View participant list and current standings
+- Driver list management (backend-driven)
 
-### `npm start`
+## Quick start (client)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Prerequisites: Node.js (16+ recommended) and npm.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+From the `client` folder:
 
-### `npm test`
+```bash
+npm install
+npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`npm start` runs the development server (React) and opens the app at http://localhost:3000. The client makes API calls to `/api/*` — in development those requests are proxied according to the `proxy` entry in `client/package.json`.
 
-### `npm run build`
+To build a production bundle:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm run build
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Running the full stack locally
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Start the backend server (creates and uses a SQLite DB):
 
-### `npm run eject`
+```bash
+# from the 'server' folder
+npm install
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The server listens on `process.env.PORT` or `3001` by default and exposes the API under `/api` (see [server/index.js](server/index.js)).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Start the client (see Quick start above). By default the client `proxy` in `client/package.json` points at the deployed API. To use a local backend during development, either:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Update `client/package.json` -> `proxy` to `http://localhost:3001`, or
+- Build the client and serve the `build/` assets against your backend.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Important files
 
-## Learn More
+- Client entry: `src/index.jsx`
+- Routes + pages: `src/routes/` (createEvent, selectPicks, eventPage, etc.)
+- Shared utils: `src/utils/utils.js`
+- Server entry: [server/index.js](server/index.js)
+- Server DB init and access: [server/db/db.js](server/db/db.js) (SQLite DB: `server/db/nascar_pick_pool.db`)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## API notes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Base path: `/api` (e.g. `/api/getPools`, `/api/picks/:poolId`, `/api/pools`)
+- Default server port: `3001` (can be overridden with `PORT` env var)
 
-### Code Splitting
+## Tips and gotchas
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- The client expects the backend to supply/update driver data and picks via the documented endpoints. If you see empty driver/pick lists, confirm the backend is running and the `proxy` is pointing to the correct host.
+- Database is SQLite and is created/initialized automatically by the server on first run.
+- If you change the server port, update the client `proxy` (or configure your own API base URL) so development requests resolve correctly.
 
-### Analyzing the Bundle Size
+## Learn more / next steps
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- To extend functionality, check the React routes in `src/routes/` and the server endpoints in `server/index.js`.
+- If you want a local development experience matching production, change `client/package.json` `proxy` to `http://localhost:3001`.
+ 
+## TODOs
 
-### Making a Progressive Web App
+MVP
+- Switch to `react-query` for all endpoints
+- Can only select driver once
+- Containerize app (for practice)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Version Version 1.0.0 Goal
+- Save points each call
+- Save winner
+- Redux for login and race data, and driver list?
+- Adjust git to run in terminal with auth
+- Figure out transaction issue (see `notes.txt` for context)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you want, I can start on any of these — say which one and I'll open a branch and implement it.

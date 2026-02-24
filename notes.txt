@@ -7,31 +7,6 @@ https://github.com/ooohfascinating/NascarApi/tree/main
 
 figma!
 
-TODO: 
-- DONE find event (get from backend)
-- DONE Navigate to Event page on event create
-- DONE 'no participants' until event has participants
-- DONE Make event page
-- DONE aggregate picks into a leaderboard <- This is the event page
-- DONE display driver ticker, user ticker side by side
-
-- DONE move picks to a modal on event page
-- DONE button to open modal
-- DONE order picks every call, and on pick submission
-- styling on event page needs work
-
-- Save points each call 
-
-- save winner
-
-- redux for login and race data, and driver list
-
-- can only select driver once
-
-- Adjust git to run in terminal with auth
-
-- Figure out transaction issue
-
 Design/quality ideas:
 - pop out card with pick details?
 - default create pool to current race name and date

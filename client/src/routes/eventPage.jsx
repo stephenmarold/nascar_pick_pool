@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	Stack,
+	Typography,
+	Card,
+	CardContent,
+	Tabs,
+	Tab,
+} from '@mui/material';
 import axios from 'axios';
 import ParticipantList from '../components/participantList';
 import DriverStandings from '../components/driverStandings';
 import SelectPicks from './selectPicks';
-import { use } from 'react';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { calculateParticipantScores } from '../utils/utils';
 
 const EventPage = () => {
@@ -28,6 +38,14 @@ const EventPage = () => {
 		} catch (error) {
 			console.error('Error fetching race data', error);
 		}
+	};
+
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+	const [mobileTab, setMobileTab] = useState(0);
+
+	const handleTabChange = (event, newValue) => {
+		setMobileTab(newValue);
 	};
 
 	const fetchParticipants = async () => {
@@ -104,40 +122,76 @@ const EventPage = () => {
 					padding: '1rem',
 				}}
 			>
-				{/* Left side - Picks & Participants */}
-				<Stack
-					spacing={2}
-					sx={{
-						flex: 1,
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}
-				>
-					<Button
-						variant='contained'
-						onClick={() => {
-							setPicksModalOpen(true);
-						}}
-					>
-						Make Picks
-					</Button>
-					<ParticipantList
-						poolId={poolId}
-						participants={participants}
-					/>
-				</Stack>
+				{isMobile ? (
+					<Stack spacing={2} sx={{ width: '100%' }}>
+						<Button
+							variant='contained'
+							onClick={() => {
+								setPicksModalOpen(true);
+							}}
+						>
+							Make Picks
+						</Button>
+						<Card>
+							<Tabs
+								value={mobileTab}
+								onChange={handleTabChange}
+								variant='fullWidth'
+							>
+								<Tab label='Participants' />
+								<Tab label='Standings' />
+							</Tabs>
+							<CardContent>
+								{mobileTab === 0 && (
+									<ParticipantList
+										poolId={poolId}
+										participants={participants}
+									/>
+								)}
+								{mobileTab === 1 && (
+									<DriverStandings raceData={raceData} />
+								)}
+							</CardContent>
+						</Card>
+					</Stack>
+				) : (
+					<>
+						{/* Left side - Picks & Participants */}
+						<Stack
+							spacing={2}
+							sx={{
+								flex: 1,
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
+							<Button
+								variant='contained'
+								onClick={() => {
+									setPicksModalOpen(true);
+								}}
+							>
+								Make Picks
+							</Button>
+							<ParticipantList
+								poolId={poolId}
+								participants={participants}
+							/>
+						</Stack>
 
-				{/* Right side - Standings */}
-				<Box
-					sx={{
-						flex: 1,
-						display: 'flex',
-						justifyContent: 'center',
-					}}
-				>
-					<DriverStandings raceData={raceData} />
-				</Box>
+						{/* Right side - Standings */}
+						<Box
+							sx={{
+								flex: 1,
+								display: 'flex',
+								justifyContent: 'center',
+							}}
+						>
+							<DriverStandings raceData={raceData} />
+						</Box>
+					</>
+				)}
 			</Box>
 		</>
 	);

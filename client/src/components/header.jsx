@@ -55,8 +55,7 @@ function Header() {
 					alignItems: 'center',
 					//borderBottom: 3,
 					//borderColor: '#FF901F',
-					background:
-						'linear-gradient(to right, yellow, red, blue 80%)',
+					background: 'black',
 				}}
 			>
 				<Box
@@ -70,7 +69,7 @@ function Header() {
 						to='/createEvent'
 						// onClick={() => console.log('test')}
 						style={{
-							color: 'black',
+							color: '#ffffff',
 							// border: isActiveLink === 0 ? '3px solid #FF901F' : '',
 							textDecoration: 'none',
 							padding: '10px',
@@ -83,7 +82,7 @@ function Header() {
 					<Link
 						to='/findEvent'
 						style={{
-							color: 'black',
+							color: '#ffffff',
 							// border: isActiveLink === 1 ? '3px solid #FF901F' : '',
 							textDecoration: 'none',
 							padding: '10px',
@@ -147,9 +146,10 @@ function Header() {
 				variant='determinate'
 				value={100}
 				sx={{
-					backgroundColor: '#540D6E',
+					height: '6px',
+					backgroundColor: 'transparent',
 					'& .MuiLinearProgress-bar': {
-						backgroundColor: '#FF901F',
+						background: 'linear-gradient(to right, yellow, red, blue 80%)',
 					},
 					width: '100%',
 					animationDuration: '10ms',
@@ -159,9 +159,10 @@ function Header() {
 				<>
 					<LinearProgress
 						sx={{
-							backgroundColor: '#540D6E',
+							height: '6px',
+							backgroundColor: 'transparent',
 							'& .MuiLinearProgress-bar': {
-								backgroundColor: '#FF901F',
+								background: 'linear-gradient(to right, yellow, red, blue 80%)',
 							},
 							width: '100%',
 							animationDuration: '10ms',
