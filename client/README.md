@@ -75,6 +75,8 @@ MVP
 - Switch to `react-query` for all endpoints
 - Can only select driver once
 - Containerize app (for practice)
+- Move lap/race name out of participants list and into main card at top
+- better way to get most up to date driver list. 
 
 Version Version 1.0.0 Goal
 - Save points each call

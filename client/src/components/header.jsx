@@ -13,7 +13,7 @@ function Header() {
 
 	const getRaceData = async () => {
 		const response = await axios.get(
-			`https://cf.nascar.com/cacher/2025/1/5557/weekend-feed.json`
+			`https://cf.nascar.com/cacher/2026/1/5597/weekend-feed.json`
 		);
 		setDrivers(response.data.weekend_race[0].results);
 	};
