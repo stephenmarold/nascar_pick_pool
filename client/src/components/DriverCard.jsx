@@ -20,9 +20,9 @@ const DriverCard = ({ driver }) => {
 	return (
 		<Card
 			sx={{
-				width: 345,
-				height: 130,
-				margin: '1rem',
+				width: { xs: '92%', sm: 345 },
+				height: { xs: 110, sm: 130 },
+				margin: { xs: '0.5rem auto', sm: '1rem' },
 				border: `1px solid #${
 					mfcColors[driver.manufacturer] ?? 'FFC000'
 				}`,

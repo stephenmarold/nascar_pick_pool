@@ -10,6 +10,8 @@ import {
 	DialogActions,
 	IconButton,
 	Typography,
+	useMediaQuery,
+	useTheme,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
@@ -23,6 +25,8 @@ const defaultDriverCard = {
 };
 
 function SelectPicksModal({ open, setOpen, poolId, fetchData }) {
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [raceData, setRaceData] = useState({});
 	const [maxDriversSelected, setMaxDriversSelected] = useState(false);
 	const [drivers, setDrivers] = useState([]);
@@ -111,6 +115,7 @@ function SelectPicksModal({ open, setOpen, poolId, fetchData }) {
 			onClose={handleClose}
 			fullWidth
 			maxWidth='md'
+			fullScreen={fullScreen}
 		>
 			<DialogTitle sx={{ m: 0, p: 2 }}>
 				Make Your Picks
@@ -127,9 +132,9 @@ function SelectPicksModal({ open, setOpen, poolId, fetchData }) {
 				<Box
 					sx={{
 						display: 'flex',
-						flexDirection: 'row',
+						flexDirection: { xs: 'column', md: 'row' },
 						justifyContent: 'space-between',
-						gap: 4,
+						gap: { xs: 2, md: 4 },
 					}}
 				>
 					<Box
@@ -138,7 +143,7 @@ function SelectPicksModal({ open, setOpen, poolId, fetchData }) {
 							justifyContent: 'center',
 							alignItems: 'center',
 							flexFlow: 'column',
-							width: '50%',
+							width: { xs: '100%', md: '50%' },
 						}}
 					>
 						<Typography variant='h6'>Picks</Typography>
@@ -175,17 +180,16 @@ function SelectPicksModal({ open, setOpen, poolId, fetchData }) {
 						sx={{
 							display: 'flex',
 							flexDirection: 'column',
-							width: '50%',
+							width: { xs: '100%', md: '50%' },
 							gap: 2,
-							alignItems: 'center',
+							alignItems: 'stretch',
 							paddingTop: '1rem',
 						}}
 					>
 						{selectedDrivers.map((driver, index) => (
-							<DriverCard
-								key={index}
-								driver={driver}
-							/>
+							<Box key={index} sx={{ width: '100%' }}>
+								<DriverCard driver={driver} />
+							</Box>
 						))}
 					</Box>
 				</Box>
